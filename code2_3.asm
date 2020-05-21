@@ -62,7 +62,7 @@ d:
     inc bx
     loop d
 
-    ;output \n
+    ;output \n\r
     lea DX, CRLF               
     mov AH, 09h
     int 21H
