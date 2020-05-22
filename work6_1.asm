@@ -1,30 +1,29 @@
-assume cs:code, ds:data
-data segment
-data ends
-
+assume cs:code,ss:stack
+stack segment
+    dw 5 dup(0)
+stack ends
 code segment
 start:    
     ;register init
     mov ax,1234H
-    xor bx,bx
-    xor cx,cx
-    xor dx,dx
-
-    mov dl,al
-    and dl,0FH
-    mov bl,ah
-    and bl,0FH
+    mov sp,10
 
     mov cx,4
-    mov bp,ax
-    rol bp,cl
-    and bp,0FH
-
+    
+s:  mov bp,cx;store cx
+    mov cx,4
     ror ax,cl
-    and ax,0FH
-    mov cx,ax
-    mov ax,bp
+    mov dx,ax
+    and dx,1111b;get lower 4 bit
+    push dx;store by stack
+    mov cx,bp;free cx
+    loop s
 
+    ;pop the ans in order
+    pop dx
+    pop ax
+    pop bx
+    pop cx
 
     mov   ax, 4c00h
     int   21h

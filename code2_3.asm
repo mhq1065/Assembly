@@ -2,7 +2,7 @@
 assume cs:codesg,ds:data,ss:stack
 data segment
     XH db '2183310802'
-    NUMBER db 10 dup(0)
+    COUNT db 10 dup(0)
     CRLF db 0AH, 0DH,'$'
 data ends
 
@@ -28,7 +28,7 @@ start:
     mov cx,10
 
 s:  mov al,XH[si]
-    call count
+    call counts
     inc si
     loop s
 
@@ -38,12 +38,12 @@ s:  mov al,XH[si]
     mov ax,4c00H
 	int 21h
 
-count:
+counts:
     sub ax,'0'
     mov bx,ax
-    mov al,NUMBER[bx]
+    mov al,COUNT[bx]
     inc al
-    mov NUMBER[bx],al
+    mov COUNT[bx],al
     ret
 
 display:
@@ -70,7 +70,8 @@ d:
     mov cx,10
     xor bx,bx
 
-d1: mov dx,NUMBER[bx]
+d1: 
+    mov dl,COUNT[bx]
     add dx,'0'
     mov ah,02H;set op code
     int 21h
