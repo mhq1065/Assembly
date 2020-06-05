@@ -16,13 +16,8 @@ start:
 	mov ss,ax
 	mov sp,16
 	mov bx,0;other init	
-s:	mov cl,[bx]
-	mov ch,0
-	inc cx
-	inc bx
-	loop s
-ok:	dec bx
-	mov dx,bx
+	mov di,0
+	mov ax,B[di]
 	mov ax,4c00H
 	int 21h
 codesg ends
