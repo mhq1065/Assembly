@@ -1,7 +1,5 @@
-; 2183310802
 assume cs:code,ds:data
 data segment
-    ID  db  31h,08h,02h
     hh db ?
     mm db ?
     se db ?
@@ -27,35 +25,14 @@ WRITE MACRO FROM,TO
     int 21H
 ENDM
 code segment
-main proc far
 start:
     mov ax,data
     mov ds,ax
-    xor cx,cx
-    xor dx,dx
-    mov ah,01H
+    mov ah,02H
     int 1AH
-    call minipro
-    mov ah,00H
-    int 1AH
-
-    ;获取秒数
-    mov ax,dx
-    mov dx,cx
-    mov bx,18
-    div bx
-    ;获取时分秒
-    mov bx,60
-    mov dx,0
-    div bl
-    mov se,ah
-    mov ah,0
-    div bl
-    mov mm,ah
-    mov ah,0
-    div bl
-    mov hh,ah
-
+    mov hh,ch
+    mov mm,cl
+    mov se,dh
     WRITE hh,shh
     mov dl,':'
     int 21h
@@ -67,17 +44,7 @@ start:
     LEA DX, CRLF
     MOV AH, 09H
     INT 21H
-
-    mov ax,4c00h
+    mov ax,4c00h    
     int 21h
-main endp
-
-minipro proc
-    ;输入字符
-    mov ah,07H
-    int 21h
-    ret
-minipro endp
 code ends
-
-end main
+end start
