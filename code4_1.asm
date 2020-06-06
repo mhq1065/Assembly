@@ -12,17 +12,23 @@ data segment
 
 data ends
 WRITE MACRO FROM,TO
-    mov cx,4
-    mov ah,FROM
     mov al,FROM
-    shr ah,cl
-    and al,1111b
-    or ax,0011000000110000b
-    mov TO,ah
+    mov ah,0
+    mov bx,10
+    div bl
+    ; 交换 ah,al
+    xor ah,al
+    xor al,ah
+    xor ah,al
+    ; 转化为ascii码
+    or ax,3030h
+    mov [TO],ah
     mov 1[TO],al
+
     mov dl,ah
     mov ah,02h
     int 21H
+    ; attention:int 21h:02h output:al=dl
     mov dl,1[TO]
     int 21H
 ENDM
